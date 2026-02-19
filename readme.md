@@ -1,46 +1,98 @@
-GitHub-Hosted Journal Rank API
+# 📊 GitHub-Hosted Journal Rank API
 
-This repository acts as a Static API for journal quartile rankings (Q1-Q4) based on the SCImago Journal Rank (SJR) dataset.
+This repository acts as a **Static API** for journal quartile rankings (**Q1–Q4**) based on the **SCImago Journal Rank (SJR)** dataset.
 
-Because it's hosted purely on GitHub Pages via static JSON files, it is lightning-fast, costs $0 to run, and supports historical tracking across multiple years.
+Because it's hosted purely on **GitHub Pages** using static JSON files, it is:
 
-How to Set This Up
+* ⚡ Lightning-fast
+* 💰 $0 to run
+* 📚 Supports historical tracking across multiple years
 
-1. Build the Data
+---
 
-Download the CSV datasets from SCImago. You can download multiple years if you wish.
+# 🚀 How to Set This Up
 
-Ensure the files are named with their corresponding year, like scimagojr-2023.csv, scimagojr-2022.csv, etc., and place them in the same folder as the script.
+## 1️⃣ Build the Data
 
-Make sure you have Node.js installed on your computer.
+### Step 1: Download SCImago Data
 
-Run the builder script in your terminal:
+Download the CSV datasets from SCImago.
+You may download multiple years if desired.
 
+Rename them using this format:
+
+```
+scimagojr-2023.csv
+scimagojr-2022.csv
+scimagojr-2021.csv
+```
+
+Place all CSV files in the same folder as your build script.
+
+---
+
+### Step 2: Install Node.js
+
+Make sure **Node.js** is installed on your computer.
+
+---
+
+### Step 3: Run the Builder Script
+
+Open your terminal and run:
+
+```bash
 node build-api.js
+```
 
+This will:
 
-(This will process all years, generate an api/ folder, and automatically calculate the latest_year in a meta.json file).
+* Process all available CSV years
+* Generate an `api/` folder
+* Automatically calculate `latest_year`
+* Create a `meta.json` file
 
-2. Host on GitHub
+---
 
-Commit and push the generated files (including the api/ folder) to your GitHub repository.
+## 2️⃣ Host on GitHub
 
-On GitHub, go to your repository Settings -> Pages.
+1. Commit and push the generated files (including the `api/` folder) to your GitHub repository.
+2. Go to **Settings → Pages** in your repository.
+3. Under **Build and deployment**:
 
-Under "Build and deployment", set the source to Deploy from a branch, select your main branch, and save.
+   * Select **Deploy from a branch**
+   * Choose your `main` branch
+   * Click **Save**
 
-GitHub will give you a URL (e.g., https://yourusername.github.io/your-repo-name/).
+GitHub will generate a URL like:
 
-How to Use the API
+```
+https://yourusername.github.io/your-repo-name/
+```
 
-1. Find the Latest Available Year
+---
 
-Before querying a specific journal, you can fetch meta.json to see which years are available and automatically find the latest data.
+# 📡 How to Use the API
 
+---
+
+## 1️⃣ Find the Latest Available Year
+
+Before querying a journal, fetch `meta.json` to discover:
+
+* The latest available year
+* All available years
+* Last update timestamp
+
+### Request
+
+```http
 GET https://yourusername.github.io/your-repo-name/api/meta.json
+```
 
-Response:
+### Response
 
+```json
 {
   "latest_year": "2023",
   "available_years": [
@@ -50,21 +102,33 @@ Response:
   ],
   "last_updated": "2026-02-19T21:05:00.000Z"
 }
+```
 
+---
 
-2. Fetch Journal Data by ISSN
+## 2️⃣ Fetch Journal Data by ISSN
 
-Once you know the year you want (or by using the latest_year dynamically), pass the journal's ISSN to the endpoint URL.
+Once you know the year (or dynamically use `latest_year`), query by ISSN.
 
-Endpoint URL Format:
+### Endpoint Format
+
+```http
 GET https://yourusername.github.io/your-repo-name/api/{YEAR}/issn/{ISSN}.json
+```
 
-Example Request (JavaScript/React)
+---
 
-This script first fetches the meta.json file to identify the latest year, and then queries that specific year's folder for the journal's ranking.
+# 💻 Example (JavaScript / React)
 
+This function:
+
+1. Fetches `meta.json`
+2. Detects the latest year
+3. Retrieves the journal’s ranking
+
+```javascript
 const getLatestJournalRank = async (issn) => {
-  const baseUrl = '[https://yourusername.github.io/your-repo-name/api](https://yourusername.github.io/your-repo-name/api)';
+  const baseUrl = 'https://yourusername.github.io/your-repo-name/api';
   const cleanIssn = issn.replace(/-/g, ''); // Remove dashes from ISSN
   
   try {
@@ -89,12 +153,15 @@ const getLatestJournalRank = async (issn) => {
   }
 };
 
-// Test it with Nature's ISSN
+// Test with Nature's ISSN
 getLatestJournalRank('00280836');
+```
 
+---
 
-Example Journal Response
+# 📄 Example Journal Response
 
+```json
 {
   "title": "Nature",
   "issns": [
@@ -108,3 +175,18 @@ Example Journal Response
   "categories": "Multidisciplinary (Q1)",
   "year": "2023"
 }
+```
+
+---
+
+# ✅ Summary
+
+You now have a:
+
+* Static
+* Free
+* Fast
+* Versioned
+* Historical
+
+Journal ranking API powered entirely by **GitHub Pages**.
